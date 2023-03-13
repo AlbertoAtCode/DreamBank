@@ -1,5 +1,6 @@
 package com.example.dreambank.Views;
 
+import com.example.dreambank.Controllers.Admin.AdminMenuController;
 import com.example.dreambank.Controllers.Client.ClientController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -15,8 +16,13 @@ public class ViewFactory {
     private AnchorPane transactionsView;
     private AnchorPane accountsView;
 
+    //Admin Views
+    private final StringProperty adminSelectedMenuItem;
+    private AnchorPane createClientView;
+
     public ViewFactory() {
         this.clientSelectedMenuItem = new SimpleStringProperty("");
+        this.adminSelectedMenuItem = new SimpleStringProperty("");
     }
 
     /*
@@ -40,7 +46,7 @@ public class ViewFactory {
     public AnchorPane getTransactionsView() {
         if (transactionsView == null) {
             try {
-                transactionsView = new FXMLLoader(getClass().getResource("Fxml/Client/Transactions.fxml")).load();
+                transactionsView = new FXMLLoader(getClass().getResource("/Fxml/Client/Transactions.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -51,7 +57,7 @@ public class ViewFactory {
     public AnchorPane getAccountsView() {
         if (accountsView == null) {
             try {
-                accountsView = new FXMLLoader(getClass().getResource("Fxml/Client/Accounts.fxml")).load();
+                accountsView = new FXMLLoader(getClass().getResource("/Fxml/Client/Accounts.fxml")).load();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -59,15 +65,41 @@ public class ViewFactory {
         return accountsView;
     }
 
-    public void showLoginWindow() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Login.fxml"));
-        createStage(loader);
-    }
-
     public void showClientWindow() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Client/Client.fxml"));
         ClientController clientController = new ClientController();
         loader.setController(clientController);
+        createStage(loader);
+    }
+
+    /*
+    * Admin Views Section
+    * */
+
+    public StringProperty getAdminSelectedMenuItem() {
+        return adminSelectedMenuItem;
+    }
+
+    public AnchorPane getCreateClientView() {
+        if (createClientView == null) {
+            try {
+                createClientView = new FXMLLoader(getClass().getResource("/Fxml/Admin/CreateClient.fxml")).load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return createClientView;
+    }
+
+    public void showAdminWindow() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Admin/Admin.fxml"));
+        AdminMenuController controller = new AdminMenuController();
+        loader.setController(controller);
+        createStage(loader);
+    }
+
+    public void showLoginWindow() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Login.fxml"));
         createStage(loader);
     }
 
